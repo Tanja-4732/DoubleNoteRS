@@ -1,0 +1,18 @@
+[package]
+name = "doublenote"
+version = "0.0.0"
+edition = "2021"
+authors = ["Tanja <rust@tanja.pw>"]
+description = "A Rust implementation of DoubleNote"
+documentation = "https://docs.rs/double_note"
+homepage = "https://github.com/Tanja-4732/DoubleNoteRS#readme"
+repository = "https://github.com/Tanja-4732/DoubleNoteRS"
+license = "AGPL-3.0-or-later"
+# keywords = []
+# categories = []
+include = ["/src", "/Cargo.toml", "/README.md", "/LICENSE.md"]
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
