@@ -1,3 +1,5 @@
+use leptos::*;
+
 fn main() {
-    todo!("Port DoubleNote to Rust")
+    mount_to_body(|cx| view! { cx,  <p>"Hello, world!"</p> })
 }
