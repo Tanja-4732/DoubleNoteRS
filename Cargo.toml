@@ -1,5 +1,5 @@
 [package]
-name = "doublenote"
+name = "double_note"
 version = "0.0.0"
 edition = "2021"
 authors = ["Tanja <rust@tanja.pw>"]
