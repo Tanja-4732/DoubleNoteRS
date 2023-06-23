@@ -17,3 +17,4 @@ include = ["/src", "/Cargo.toml", "/README.md", "/LICENSE.md"]
 
 [dependencies]
 leptos = "0.3.1"
+leptos_router = { version = "0.3.1", features = ["csr"] }
