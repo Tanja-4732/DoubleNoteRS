@@ -30,3 +30,47 @@ h1 {
     font-size: 56.8px;
   }
 }
+
+.sidenav-container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.sidenav-menu {
+  background-color: #b5b5b5;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  min-width: fit-content;
+}
+
+.sidenav-children {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.list-button {
+  padding: 0.5rem 1rem;
+}
+
+hr {
+  display: block;
+  margin: 0;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: hsla(0, 0%, 100%, 0.12);
+}

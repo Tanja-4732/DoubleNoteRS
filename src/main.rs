@@ -1,8 +1,7 @@
 mod app;
 mod components;
 
-use leptos::*;
-use leptos_router::*;
+use leptos::{mount_to_body, view};
 
 use crate::app::App;
 
