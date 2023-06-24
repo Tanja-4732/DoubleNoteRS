@@ -7,5 +7,5 @@ use leptos_router::*;
 use crate::app::App;
 
 fn main() {
-    mount_to_body(|cx| view! { cx,  <App />})
+    mount_to_body(|cx| view! { cx, <App/> })
 }
