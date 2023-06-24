@@ -10,9 +10,12 @@ use crate::components;
 
 #[component]
 pub fn App(cx: Scope) -> impl IntoView {
+    let version_info = env!("CARGO_PKG_VERSION");
+
     view! { cx,
         <Sidenav nav_menu=move |_| {
             view! { cx,
+                <span>"DoubleNote" <span class="version-info">" v" {version_info}</span></span>
                 <a class="list-button" href="/welcome">
                     "Welcome"
                 </a>
