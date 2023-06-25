@@ -2,10 +2,13 @@
 
 use std::collections::HashMap;
 
-use super::common;
+use chrono::Utc;
 
-mod vcs;
+use super::common::{self, NotebookType};
 
+pub mod vcs;
+
+#[derive(Debug, Clone, PartialEq, Default)]
 pub struct BCPNotebook {
     pub name: String,
     pub notebook_type: common::NotebookType,
@@ -52,6 +55,35 @@ pub struct BCPNotebook {
     pub working_tree: CategoryTree,
 }
 
+impl BCPNotebook {
+    pub(crate) fn new(name: &str) -> Self {
+        BCPNotebook {
+            name: "My Notebook".to_string(),
+            tags: Default::default(),
+            head: vcs::Head::Detached(vcs::BCPCommit {
+                timestamp: Utc::now(),
+                previous_string: "".to_string(),
+                previous: None,
+            }),
+            branch_strings: Default::default(),
+            branches: Default::default(),
+            head_string: "".to_string(),
+            notebook_type: NotebookType::BoxCanvasPage,
+            tag_strings: Default::default(),
+            uuid: uuid::Uuid::new_v4(),
+            working_tree: CategoryTree {
+                name: "root".to_string(),
+                children_strings: Default::default(),
+                pages_strings: Default::default(),
+                children: Default::default(),
+                pages: Default::default(),
+            },
+            working_tree_string: "".to_string(),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Default)]
 pub struct CategoryTree {
     /// The name of this category
     pub name: String,
@@ -69,6 +101,7 @@ pub struct CategoryTree {
     pub pages: Vec<BoxCanvasPage>,
 }
 
+#[derive(Debug, Clone, PartialEq)]
 pub struct BoxCanvasPage {
     /// The title of this page
     pub title: String,
@@ -83,6 +116,7 @@ pub struct BoxCanvasPage {
     pub boxes: Vec<TextBox>,
 }
 
+#[derive(Debug, Clone, PartialEq)]
 pub struct TextBox {
     /// The UUID of the text box
     pub uuid: uuid::Uuid,

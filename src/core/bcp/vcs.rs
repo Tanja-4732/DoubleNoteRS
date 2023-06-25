@@ -4,6 +4,7 @@ use std::rc::Rc;
 
 use chrono::{DateTime, Utc};
 
+#[derive(Debug, Clone, PartialEq, Hash)]
 pub struct BCPTag {
     /// The timestamp of the tag
     pub timestamp: DateTime<Utc>,
@@ -21,6 +22,7 @@ pub struct BCPTag {
     pub target: BCPCommit,
 }
 
+#[derive(Debug, Clone, PartialEq, Hash)]
 pub struct BCPCommit {
     /// The timestamp of the commit
     pub timestamp: DateTime<Utc>,
@@ -29,15 +31,26 @@ pub struct BCPCommit {
     pub previous_string: String,
 
     /// The previous commit
-    pub previous: Rc<BCPCommit>,
+    pub previous: Option<Rc<BCPCommit>>,
 }
 
+#[derive(Debug, Clone, PartialEq, Hash)]
 pub enum Head {
     Detached(BCPCommit),
     Branch {
         branch_name: String,
         commit: BCPCommit,
     },
+}
+
+impl Default for Head {
+    fn default() -> Self {
+        Self::Detached(BCPCommit {
+            timestamp: Utc::now(),
+            previous_string: "".to_string(),
+            previous: None,
+        })
+    }
 }
 
 impl Head {

@@ -1,14 +1,18 @@
 use chrono::Utc;
 use leptos::*;
+use uuid::Uuid;
 
 use crate::core::{
-    bcp::{self, BCPNotebook},
+    bcp::{self},
     common::NotebookType,
 };
 
 #[component]
-pub fn Notebooks(cx: Scope) -> impl IntoView {
-    let my_notebook = BCPNotebook::new("My Notebook");
+pub fn BCPNotebook<F>(cx: Scope, uuid: F) -> impl IntoView
+where
+    F: Fn(Scope) -> Uuid,
+{
+    let my_notebook = bcp::BCPNotebook::new("My Notebook");
 
     let href = format!("/notebooks/{}", my_notebook.uuid);
 
