@@ -20,23 +20,8 @@ use leptos_router::*;
 
 #[component]
 pub fn MainView(cx: Scope) -> impl IntoView {
-    // let params: Memo<ParamsMap> = use_params_map(cx);
-    // let notebook_uuid = move || {
-    //     params.with(|params| {
-    //         params
-    //             .get("notebook_uuid")
-    //             .map(|uuid| Uuid::parse_str(uuid).unwrap())
-    //             .unwrap_or_default()
-    //     })
-    // };
-
-    // let notebook_uuid_string = move || notebook_uuid().to_string();
-
-    // use_router(cx);
-
     view! { cx,
         <Router>
-            <nav></nav>
             <main>
                 <Routes>
                     <Route
@@ -51,13 +36,20 @@ pub fn MainView(cx: Scope) -> impl IntoView {
                             view! { cx, <Notebooks/> }
                         }
                     />
-                    // <Route
-                    //     path="/notebooks/bcp/:notebook_uuid"
-                    //     view=move|cx| {
-                    //         // view! { cx, <BCPNotebook uuid=notebook_uuid/> }
-                    //         view! { cx, {notebook_uuid_string} }
-                    //     }
-                    // />
+                    <Route
+                        path="/notebooks/bcp/:notebook_uuid"
+                        view=move |cx| {
+                            view! { cx,
+                                {
+                                    let params: Memo<ParamsMap> = use_params_map(cx);
+                                    let notebook_uuid = move || {
+                                        params.with(|params| params.get("notebook_uuid").cloned())
+                                    };
+                                    notebook_uuid
+                                }
+                            }
+                        }
+                    />
                     <Route
                         path="/collaboration"
                         view=|cx| {
