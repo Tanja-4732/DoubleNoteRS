@@ -14,9 +14,7 @@ where
             >
                 {nav_menu(cx)}
             </div>
-            <div id="sidenav-children" class="flex flex-col w-full p-2">
-                {children(cx)}
-            </div>
+            {children(cx)}
         </div>
     }
 }

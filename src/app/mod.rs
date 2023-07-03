@@ -11,6 +11,10 @@ use crate::components;
 pub fn App(cx: Scope) -> impl IntoView {
     let version_info = env!("CARGO_PKG_VERSION");
 
+    // TODO replace this with the title of the current route
+    let (title, set_title) = create_signal(cx, "DoubleNote");
+    provide_context(cx, title);
+
     let class = "px-2 py-2";
 
     view! { cx,
@@ -41,7 +45,12 @@ pub fn App(cx: Scope) -> impl IntoView {
                 </a>
             }
         }>
-            <MainView/>
+            <div id="sidenav-children">
+                <Toolbar/>
+                <div id="sidenav-selected-route" class="flex flex-col w-full p-2">
+                    <MainView/>
+                </div>
+            </div>
         </Sidenav>
     }
 }

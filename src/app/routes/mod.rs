@@ -20,9 +20,25 @@ use leptos_router::*;
 
 #[component]
 pub fn MainView(cx: Scope) -> impl IntoView {
+    // let route = use_// let route = use_route(cx).path();
+
+    // let (title, set_title) = create_signal(cx, "Welcome");
+    // set_title.update(move |_| {
+    //     let route = route.as_ref();
+    //     return match route {
+    //         "/welcome" => "Welcome",
+    //         "/notebooks" => "Notebooks",
+    //         "/collaboration" => "Collaboration",
+    //         "/servers" => "Servers",
+    //         "/settings" => "Settings",
+    //         "/demo" => "Demo",
+    //         _ => "404",
+    //     };
+    // });
+    // provide_context(cx, title);
     view! { cx,
         <Router>
-            <main>
+            <main id="router-outlet">
                 <Routes>
                     <Route
                         path="/welcome"
