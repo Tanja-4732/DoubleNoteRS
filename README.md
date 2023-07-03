@@ -4,6 +4,20 @@
 
 A Rust port of DoubleNote, originally written in Angular; work in progress.
 
+## Development
+
+### Prerequisites
+
+- [Rust](https://www.rust-lang.org/tools/install)
+  - Rust is a modern systems programming language focusing on safety, speed, and concurrency
+  - It empowers everyone to build reliable and efficient software
+  - DoubleNote is written in Rust, compiled to WebAssembly, and runs in the browser
+- [Trunk](https://trunkrs.dev/#getting-started)
+  - Trunk is a tool for building, bundling, and serving Rust WebAssembly apps
+  - It's used to build the DoubleNote frontend
+- Tailwind CSS ([AUR](https://aur.archlinux.org/packages/tailwindcss-bin/), [bins](https://github.com/tailwindlabs/tailwindcss/releases))
+  - This project is set up to run `tailwindcss`, not `npx tailwindcss`, so you should install a binary version of Tailwind CSS
+
 ## License
 
 [![GNU Affero General Public License v3.0](https://www.gnu.org/graphics/agplv3-with-text-162x68.png)](https://www.gnu.org/licenses/agpl-3.0.html)

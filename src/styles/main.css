@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Noto color emoji */
 @font-face {
   font-family: "Noto Color Emoji";
