@@ -7,9 +7,9 @@ where
     IV: IntoView,
 {
     view! { cx,
-        <div class="sidenav-container">
-            <div class="sidenav-menu">{nav_menu(cx)}</div>
-            <div class="sidenav-children">{children(cx)}</div>
+        <div id="main" class="flex flex-row w-full h-screen">
+            <div id="sidenav-menu" class="flex flex-col h-full min-w-fit">{nav_menu(cx)}</div>
+            <div id="sidenav-children" class="flex flex-col w-full">{children(cx)}</div>
         </div>
     }
 }
