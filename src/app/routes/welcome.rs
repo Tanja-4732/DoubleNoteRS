@@ -4,7 +4,7 @@ use leptos::*;
 pub fn Welcome(cx: Scope) -> impl IntoView {
     view! { cx,
         <div>
-            <h1 class="text-2xl">{"Welcome to DoubleNote!"}</h1>
+            <h1 class="text-2xl pb-2">{"Welcome to DoubleNote!"}</h1>
             <p class="pb-3">
                 {"To navigate around the application, use the SideNav (a drawer menu which slides in from the left side of the screen) and the CrumbTrail (an interactive indicator of the current location in the application located directly below the blue title bar).            "}
             </p>

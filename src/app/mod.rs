@@ -11,12 +11,15 @@ use crate::components;
 pub fn App(cx: Scope) -> impl IntoView {
     let version_info = env!("CARGO_PKG_VERSION");
 
-    let class = "px-1 py-2";
+    let class = "px-2 py-2";
 
     view! { cx,
         <Sidenav nav_menu=move |_| {
             view! { cx,
-                <span>"DoubleNote" <span class="text-sm ml-auto">" v" {version_info}</span></span>
+                <span class=class>
+                    <span class="text-xl">"DoubleNote"</span>
+                    <span class="text-sm ml-auto">" v" {version_info}</span>
+                </span>
                 <a class=class href="/welcome">
                     "Welcome"
                 </a>
