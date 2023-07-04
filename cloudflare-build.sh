@@ -19,6 +19,9 @@ rustup target add wasm32-unknown-unknown
 # Install trunk
 cargo install --locked trunk
 
+# Install Tailwind CSS
+npm i -g tailwindcss
+
 echo "Finished installing build dependencies for Cloudflare pages."
 
 # Build the project
