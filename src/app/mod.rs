@@ -45,7 +45,7 @@ pub fn App(cx: Scope) -> impl IntoView {
                 </a>
             }
         }>
-            <div id="sidenav-children" class="w-full">
+            <div id="sidenav-children" class="w-full min-w-fit dark:bg-slate-800 dark:text-white">
                 <Toolbar/>
                 <div id="sidenav-selected-route" class="flex flex-col p-2">
                     <MainView/>

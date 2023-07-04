@@ -7,7 +7,8 @@ where
     IV: IntoView,
 {
     view! { cx,
-        <div id="main" class="flex flex-row w-full h-screen dark:bg-slate-800 dark:text-white">
+        // The background color here may be redundant
+        <div id="main" class="flex flex-row w-full min-w-fit h-screen dark:bg-slate-800 dark:text-white">
             <div
                 id="sidenav-menu"
                 class="flex flex-col h-full min-w-fit bg-gray-100 dark:bg-slate-900"

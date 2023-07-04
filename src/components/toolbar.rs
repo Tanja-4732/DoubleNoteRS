@@ -11,7 +11,7 @@ pub fn Toolbar(cx: Scope) -> impl IntoView {
         .expect("there to be a `title` signal provided");
 
     view! { cx,
-        <div id="main" class="w-full dark:bg-slate-700 dark:text-white p-2 text-xl">
+        <div class="w-full dark:bg-slate-700 dark:text-white p-2 text-xl">
             {title()}
         </div>
     }
