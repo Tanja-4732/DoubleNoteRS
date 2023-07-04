@@ -2,9 +2,12 @@ use chrono::Utc;
 use gloo_storage::{Result, Storage};
 use leptos::{svg::view, *};
 
-use crate::core::{
-    bcp::{self, BCPNotebook},
-    common::NotebookType,
+use crate::{
+    components::*,
+    core::{
+        bcp::{self, BCPNotebook},
+        common::NotebookType,
+    },
 };
 
 #[component]
@@ -21,27 +24,35 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
 
     match notebooks {
         Ok(notebooks) => view! { cx,
-            <div>
-                {notebooks
-                    .into_iter()
-                    .map(|notebook| {
-                        let href = format!("/notebooks/bcp/{}", notebook.uuid);
-                        view! { cx,
-                            <div>
-                                <h2>{notebook.name.clone()}</h2>
-                                <a href=href>"Open"</a>
-                            </div>
-                        }
-                    })
-                    .collect_view(cx)}
-            </div>
-        },
+                <div>
+                    {notebooks
+                        .into_iter()
+                        .map(|notebook| {
+                            let href = format!("/notebooks/bcp/{}", notebook.uuid);
+                            view! { cx,
+                                <Card buttons=move |_| {
+                                    view! { cx,
+                                        <a href=href.clone() class="dark:bg-green-500 px-2 py-1 max-w-fit rounded">
+                                            "Open"
+                                        </a>
+                                        <a href=href.clone() class="dark:border mr-1 px-2 py-1 max-w-fit rounded">
+                                            "Edit"
+                                        </a>
+                                    }
+                                }>
+                                    <h2 class="text-lg">{notebook.name.clone()}</h2>
+                                </Card>
+                            }
+                        })
+                        .collect_view(cx)}
+                </div>
+            },
         Err(_) => view! { cx,
-            <div>
-                <h1>{"Notebooks"}</h1>
-                <p>{"This is the notebooks page."}</p>
-                <h2>{"My Notebook"}</h2>
-            </div>
-        },
+                <div>
+                    <h1>{"Notebooks"}</h1>
+                    <p>{"This is the notebooks page."}</p>
+                    <h2>{"My Notebook"}</h2>
+                </div>
+            },
     }
 }
