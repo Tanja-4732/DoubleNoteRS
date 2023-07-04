@@ -56,13 +56,13 @@ pub fn MainView(cx: Scope) -> impl IntoView {
                         path="/notebooks/bcp/:notebook_uuid"
                         view=move |cx| {
                             view! { cx,
-                                {
+                                <BCPNotebook uuid={
                                     let params: Memo<ParamsMap> = use_params_map(cx);
-                                    let notebook_uuid = move || {
-                                        params.with(|params| params.get("notebook_uuid").cloned())
-                                    };
-                                    notebook_uuid
-                                }
+                                    params
+                                        .with(|params| params.get("notebook_uuid").cloned())
+                                        .map(|uuid| Uuid::parse_str(&uuid).unwrap())
+                                        .unwrap()
+                                }/>
                             }
                         }
                     />

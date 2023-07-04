@@ -8,10 +8,7 @@ use crate::core::{
 };
 
 #[component]
-pub fn BCPNotebook<F>(cx: Scope, uuid: F) -> impl IntoView
-where
-    F: Fn(Scope) -> Uuid,
-{
+pub fn BCPNotebook(cx: Scope, uuid: Uuid) -> impl IntoView {
     let my_notebook = bcp::BCPNotebook::new("My Notebook");
 
     let href = format!("/notebooks/{}", my_notebook.uuid);
@@ -21,7 +18,7 @@ where
             <h1>{"Notebooks"}</h1>
             <p>{"This is the notebooks page."}</p>
             <h2>{"My Notebook"}</h2>
-            <a href=href>{my_notebook.name.clone()}</a>
+            // <a href=href>{my_notebook.name.clone()}</a>
         </div>
     }
 }

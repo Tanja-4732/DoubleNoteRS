@@ -3,8 +3,9 @@
 use std::rc::Rc;
 
 use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Hash)]
+#[derive(Debug, Clone, PartialEq, Hash, Serialize, Deserialize)]
 pub struct BCPTag {
     /// The timestamp of the tag
     pub timestamp: DateTime<Utc>,
@@ -22,7 +23,7 @@ pub struct BCPTag {
     pub target: BCPCommit,
 }
 
-#[derive(Debug, Clone, PartialEq, Hash)]
+#[derive(Debug, Clone, PartialEq, Hash, Serialize, Deserialize)]
 pub struct BCPCommit {
     /// The timestamp of the commit
     pub timestamp: DateTime<Utc>,
@@ -34,7 +35,7 @@ pub struct BCPCommit {
     pub previous: Option<Rc<BCPCommit>>,
 }
 
-#[derive(Debug, Clone, PartialEq, Hash)]
+#[derive(Debug, Clone, PartialEq, Hash, Serialize, Deserialize)]
 pub enum Head {
     Detached(BCPCommit),
     Branch {

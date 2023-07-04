@@ -3,12 +3,13 @@
 use std::collections::HashMap;
 
 use chrono::Utc;
+use serde::{Deserialize, Serialize};
 
 use super::common::{self, NotebookType};
 
 pub mod vcs;
 
-#[derive(Debug, Clone, PartialEq, Default)]
+#[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize)]
 pub struct BCPNotebook {
     pub name: String,
     pub notebook_type: common::NotebookType,
@@ -83,7 +84,7 @@ impl BCPNotebook {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Default)]
+#[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize)]
 pub struct CategoryTree {
     /// The name of this category
     pub name: String,
@@ -101,7 +102,7 @@ pub struct CategoryTree {
     pub pages: Vec<BoxCanvasPage>,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BoxCanvasPage {
     /// The title of this page
     pub title: String,
@@ -116,7 +117,7 @@ pub struct BoxCanvasPage {
     pub boxes: Vec<TextBox>,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct TextBox {
     /// The UUID of the text box
     pub uuid: uuid::Uuid,
