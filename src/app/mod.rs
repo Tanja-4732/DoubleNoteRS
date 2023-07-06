@@ -11,6 +11,8 @@ use crate::components;
 pub fn App(cx: Scope) -> impl IntoView {
     let version_info = env!("CARGO_PKG_VERSION");
 
+    let (toggle, set_toggle) = create_signal(cx, Change::Open);
+
     // TODO replace this with the title of the current route
     let (title, set_title) = create_signal(cx, "DoubleNote");
     provide_context(cx, title);
@@ -18,7 +20,7 @@ pub fn App(cx: Scope) -> impl IntoView {
     let class = "px-2 py-2";
 
     view! { cx,
-        <Sidenav toggle_signal=None nav_menu=move |_| {
+        <Sidenav nav_state=Some(toggle) nav_menu=move |_| {
             view! { cx,
                 <span class=class>
                     <span class="text-xl">"DoubleNote"</span>
@@ -46,7 +48,7 @@ pub fn App(cx: Scope) -> impl IntoView {
             }
         }>
             <div id="sidenav-children" class="w-full min-w-fit dark:bg-slate-800 dark:text-white">
-                <Toolbar/>
+                <Toolbar nav_toggle=set_toggle/>
                 <div id="sidenav-selected-route" class="flex flex-col p-2">
                     <MainView/>
                 </div>
