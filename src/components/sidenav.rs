@@ -1,4 +1,5 @@
 use leptos::*;
+use serde::{Deserialize, Serialize};
 
 #[component]
 pub fn Sidenav<F, IV>(
@@ -39,7 +40,7 @@ where
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, Default)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Default, Serialize, Deserialize)]
 pub enum Change {
     #[default]
     Open,

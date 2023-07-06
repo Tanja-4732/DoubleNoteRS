@@ -5,13 +5,17 @@ use leptos::*;
 use components::*;
 use routes::MainView;
 
-use crate::components;
+use crate::{
+    components,
+    core::common::{get_sidenav_state, set_sidenav_state},
+};
 
 #[component]
 pub fn App(cx: Scope) -> impl IntoView {
     let version_info = env!("CARGO_PKG_VERSION");
 
-    let (toggle, set_toggle) = create_signal(cx, Change::Open);
+    let (toggle, set_toggle) = create_signal(cx, get_sidenav_state());
+    create_effect(cx, move |_| set_sidenav_state(toggle()));
 
     // TODO replace this with the title of the current route
     let (title, set_title) = create_signal(cx, "DoubleNote");
