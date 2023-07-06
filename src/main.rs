@@ -13,7 +13,7 @@ fn main() {
     log!("DoubleNote v{}", env!("CARGO_PKG_VERSION"));
     log!(
         "Licensed under the AGPLv3\n\
-        Copyright © 2023 Tanja-473."
+        Copyright © 2023 Tanja-4732."
     );
 
     mount_to_body(|cx| view! { cx, <App/> })

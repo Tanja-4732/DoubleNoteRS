@@ -22,9 +22,24 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
         gloo_storage::LocalStorage::set("dn2.bcp.notebooks", &notebooks).unwrap();
     }
 
+    let make_notebook = move |_| {
+        let notebooks: Result<Vec<BCPNotebook>> =
+            gloo_storage::LocalStorage::get("dn2.bcp.notebooks");
+
+        let mut notebooks = notebooks.unwrap_or_default();
+        let my_notebook = bcp::BCPNotebook::new("My Notebook");
+        notebooks.push(my_notebook);
+        gloo_storage::LocalStorage::set("dn2.bcp.notebooks", &notebooks).unwrap();
+
+        log::debug!("make_notebook")
+    };
+
     match notebooks {
         Ok(notebooks) => view! { cx,
-            <div class="">
+            <button on:click=make_notebook>
+                "Make Notebook"
+            </button>
+            <div class="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
                 {notebooks
                     .into_iter()
                     .map(|notebook| {
@@ -48,11 +63,13 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
             </div>
         },
         Err(err) => view! { cx,
+            <>
             <div>
                 <h1>{"Notebooks"}</h1>
                 <p>{"This is the notebooks page."}</p>
                 <p>{"Something went wrong here..."} {err.to_string()}</p>
             </div>
+            </>
         },
     }
 }
