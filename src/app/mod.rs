@@ -18,7 +18,7 @@ pub fn App(cx: Scope) -> impl IntoView {
     let class = "px-2 py-2";
 
     view! { cx,
-        <Sidenav nav_menu=move |_| {
+        <Sidenav toggle_signal=None nav_menu=move |_| {
             view! { cx,
                 <span class=class>
                     <span class="text-xl">"DoubleNote"</span>

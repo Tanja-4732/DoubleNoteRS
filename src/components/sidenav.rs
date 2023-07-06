@@ -1,7 +1,12 @@
 use leptos::*;
 
 #[component]
-pub fn Sidenav<F, IV>(cx: Scope, nav_menu: F, children: Children) -> impl IntoView
+pub fn Sidenav<F, IV>(
+    cx: Scope,
+    toggle_signal: Option<WriteSignal<Change>>,
+    nav_menu: F,
+    children: Children,
+) -> impl IntoView
 where
     F: Fn(Scope) -> IV,
     IV: IntoView,
@@ -18,4 +23,11 @@ where
             {children(cx)}
         </div>
     }
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+pub enum Change {
+    Open,
+    Close,
+    Toggle,
 }
