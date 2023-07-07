@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 #[component]
 pub fn Sidenav<F, IV>(
     cx: Scope,
-    nav_state: Option<ReadSignal<Change>>,
+    nav_state: Option<ReadSignal<NavState>>,
     nav_menu: F,
     children: Children,
 ) -> impl IntoView
@@ -18,11 +18,11 @@ where
 
     let nav_state = nav_state.unwrap_or_else(|| {
         log::debug!("[Sidenav] No nav_state signal provided, creating one");
-        let (r, _) = create_signal(cx, Change::Open);
+        let (r, _) = create_signal(cx, NavState::Open);
         r
     });
 
-    let nav_state = move || nav_state() == Change::Open;
+    let nav_state = move || nav_state() == NavState::Open;
 
     view! { cx,
         // The background color here may be redundant
@@ -41,14 +41,14 @@ where
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Default, Serialize, Deserialize)]
-pub enum Change {
+pub enum NavState {
     #[default]
     Open,
     Close,
     // Toggle,
 }
 
-impl Change {
+impl NavState {
     pub fn toggle(self) -> Self {
         match self {
             Self::Open => Self::Close,
@@ -56,6 +56,13 @@ impl Change {
             // Self::Toggle => Self::Toggle,
         }
     }
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Default, Serialize, Deserialize)]
+pub enum NavType {
+    #[default]
+    Push,
+    Overlay,
 }
 
 // The following comment is required for tailwind to include the class in the build

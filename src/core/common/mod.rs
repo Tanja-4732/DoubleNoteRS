@@ -1,7 +1,7 @@
 use gloo_storage::Storage;
 use serde::{Deserialize, Serialize};
 
-use crate::components::Change;
+use crate::components::{NavState, NavType};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize, Deserialize)]
 pub enum NotebookType {
@@ -23,7 +23,8 @@ pub enum TextBoxState {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 pub struct Settings {
-    pub sidenav_state: Change,
+    pub sidenav_state: NavState,
+    pub sidenav_type: NavType,
 }
 
 impl Settings {
@@ -36,12 +37,22 @@ impl Settings {
     }
 }
 
-pub fn set_sidenav_state(state: Change) {
+pub fn set_sidenav_state(state: NavState) {
     let mut settings = Settings::get();
     settings.sidenav_state = state;
     settings.write();
 }
 
-pub fn get_sidenav_state() -> Change {
+pub fn get_sidenav_state() -> NavState {
     Settings::get().sidenav_state
+}
+
+pub fn set_sidenav_type(state: NavType) {
+    let mut settings = Settings::get();
+    settings.sidenav_type = state;
+    settings.write();
+}
+
+pub fn get_sidenav_type() -> NavType {
+    Settings::get().sidenav_type
 }
