@@ -26,14 +26,16 @@ where
 
     view! { cx,
         // The background color here may be redundant
-        <div id="main" class="flex flex-row w-full min-w-fit h-screen dark:bg-slate-800 dark:text-white">
+        <div id="main" class="flex flex-row w-full min-w-fit h-full dark:bg-slate-800 dark:text-white">
             <div
                 id="sidenav-menu"
-                class="flex flex-col h-full min-w-fit bg-gray-100 dark:bg-slate-900"
+                class="flex flex-col h-screen min-w-fit bg-gray-100 dark:bg-slate-900 sticky top-0"
+                // class="flex flex-col h-full min-h-screen min-w-fit bg-gray-100 dark:bg-slate-900 sticky"
                 class:hidden=nav_state
                 style=format!("transform: translate3d({x}px, {y}px, {z}px)")
             >
                 {nav_menu(cx)}
+                // <span class="pb-[100vh]">  </span>
             </div>
             {children(cx)}
         </div>
