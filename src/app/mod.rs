@@ -20,6 +20,7 @@ pub fn App(cx: Scope) -> impl IntoView {
     // TODO replace this with the title of the current route
     let (title, set_title) = create_signal(cx, "DoubleNote");
     provide_context(cx, title);
+    provide_context(cx, set_title);
 
     let class = "px-2 py-2";
 

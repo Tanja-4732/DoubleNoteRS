@@ -6,13 +6,13 @@ use crate::{
     components::*,
     core::{
         bcp::{self, BCPNotebook},
-        common::NotebookType,
+        common::{set_title, NotebookType},
     },
 };
 
 #[component]
 pub fn Notebooks(cx: Scope) -> impl IntoView {
-    // let href = format!("/notebooks/bcp/{}", my_notebook.uuid);
+    set_title(cx, "Notebooks".into());
 
     let notebooks: Result<Vec<BCPNotebook>> = gloo_storage::LocalStorage::get("dn2.bcp.notebooks");
     if notebooks.is_err() {

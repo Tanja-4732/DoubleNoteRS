@@ -15,12 +15,12 @@ pub fn Toolbar(cx: Scope, nav_toggle: WriteSignal<NavState>) -> impl IntoView {
     view! { cx,
         <div class="w-full dark:bg-slate-700 dark:text-white p-2 text-xl">
             <button
-                class="dark:bg-green-500 px-2 max-w-fit rounded-full mr-1"
+                class="dark:bg-green-500 px-2 max-w-fit rounded-full mr-2 overflow-hidden whitespace-nowrap text-clip"
                 on:click=move |_| nav_toggle.update(|state: &mut NavState| *state = state.toggle())
             >
                 "☰"
             </button>
-            {title()}
+            {title}
         </div>
     }
 }

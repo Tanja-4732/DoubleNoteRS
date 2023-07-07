@@ -1,7 +1,18 @@
+use std::{cell::RefCell, rc::Rc};
+
 use gloo_storage::Storage;
+use leptos::{use_context, Scope, SignalSet, WriteSignal};
 use serde::{Deserialize, Serialize};
 
 use crate::components::{NavState, NavType};
+
+// pub fn set_title(cx: Scope, title: Rc<str>) {
+pub fn set_title(cx: Scope, title: &'static str) {
+    use_context::<WriteSignal<&str>>(cx)
+        // we know we just provided this in the parent component
+        .expect("there to be a `title` signal provided")
+        .set(&title);
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize, Deserialize)]
 pub enum NotebookType {

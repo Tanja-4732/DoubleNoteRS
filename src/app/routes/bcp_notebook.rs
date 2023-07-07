@@ -4,12 +4,13 @@ use uuid::Uuid;
 
 use crate::core::{
     bcp::{self},
-    common::NotebookType,
+    common::{set_title, NotebookType},
 };
 
 #[component]
 pub fn BCPNotebook(cx: Scope, uuid: Uuid) -> impl IntoView {
     let my_notebook = bcp::BCPNotebook::new("My Notebook");
+    // set_title(cx, my_notebook.name.into());
 
     let href = format!("/notebooks/{}", my_notebook.uuid);
 
