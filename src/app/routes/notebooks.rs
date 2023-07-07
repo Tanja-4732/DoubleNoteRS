@@ -36,9 +36,6 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
 
     match notebooks {
         Ok(notebooks) => view! { cx,
-            <button on:click=make_notebook>
-                "Make Notebook"
-            </button>
             <div class="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
                 {notebooks
                     .into_iter()
@@ -61,6 +58,12 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
                     })
                     .collect_view(cx)}
             </div>
+            <button on:click=make_notebook class="dark:border mr-1 px-2 py-1 max-w-fit rounded">
+                "Make Notebook"
+            </button>
+            <button on:click=make_notebook class="dark:border mt-2 px-2 py-1 max-w-fit rounded" disabled>
+                "Import"
+            </button>
         },
         Err(err) => view! { cx,
             <>
