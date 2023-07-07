@@ -22,7 +22,7 @@ where
         r
     });
 
-    let nav_state = move || nav_state() == NavState::Open;
+    let nav_hidden = move || nav_state() == NavState::Close;
 
     view! { cx,
         // The background color here may be redundant
@@ -31,7 +31,7 @@ where
                 id="sidenav-menu"
                 class="flex flex-col h-screen min-w-fit bg-gray-100 dark:bg-slate-900 sticky top-0"
                 // class="flex flex-col h-full min-h-screen min-w-fit bg-gray-100 dark:bg-slate-900 sticky"
-                class:hidden=nav_state
+                class:hidden=nav_hidden
                 style=format!("transform: translate3d({x}px, {y}px, {z}px)")
             >
                 {nav_menu(cx)}

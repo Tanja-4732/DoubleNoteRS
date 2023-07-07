@@ -31,23 +31,23 @@ pub fn App(cx: Scope) -> impl IntoView {
                     <span class="text-xl">"DoubleNote"</span>
                     <span class="text-sm ml-auto">" v" {version_info}</span>
                 </span>
-                <a class=class href="/welcome">
+                <a on:click=move|_|set_toggle(NavState::Close) class=class href="/welcome">
                     "Welcome"
                 </a>
-                <a class=class href="/notebooks">
+                <a on:click=move|_|set_toggle(NavState::Close) class=class href="/notebooks">
                     "Notebooks"
                 </a>
-                <a class=class href="/collaboration">
+                <a on:click=move|_|set_toggle(NavState::Close) class=class href="/collaboration">
                     "Collaboration"
                 </a>
-                <a class=class href="/servers">
+                <a on:click=move|_|set_toggle(NavState::Close) class=class href="/servers">
                     "Servers"
                 </a>
-                <a class=class href="/settings">
+                <a on:click=move|_|set_toggle(NavState::Close) class=class href="/settings">
                     "Settings"
                 </a>
                 <hr/>
-                <a class=class href="https://github.com/Tanja-4732/DoubleNoteRS" target="_blank">
+                <a on:click=move|_|set_toggle(NavState::Close) class=class href="https://github.com/Tanja-4732/DoubleNoteRS" target="_blank">
                     "Source Code ↗"
                 </a>
             }
