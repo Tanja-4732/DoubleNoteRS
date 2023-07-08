@@ -46,13 +46,13 @@ pub fn App(cx: Scope) -> impl IntoView {
                 <a on:click=move|_|set_toggle(NavState::Close) class=class href="/settings">
                     "Settings"
                 </a>
-                <hr/>
+                <hr class="border-gray-500"/>
                 <a class=class href="https://github.com/Tanja-4732/DoubleNoteRS" target="_blank">
                     "Source Code ↗"
                 </a>
             }
         }>
-            <div id="sidenav-children" class="w-full min-w-fit min-h-screen dark:bg-slate-800 dark:text-white">
+            <div id="sidenav-children" class="w-full min-w-fit min-h-screen bg-gray-100 dark:bg-slate-800 dark:text-white">
                 <Toolbar nav_toggle=set_toggle/>
                 <div id="sidenav-selected-route" class="flex flex-col p-2">
                     <MainView/>

@@ -10,6 +10,14 @@
   src: url("/vendor/fonts/nce/nce.woff2") format("woff2");
 }
 
+.dn2-btn-grp > button {
+  @apply h-full w-fit py-1 px-2;
+}
+
+.dn2-btn-grp > button:not(:first-child) {
+  @apply border-l dark:border-gray-700 border-gray-400;
+}
+
 /* 
 html {
   font-size: 100%;

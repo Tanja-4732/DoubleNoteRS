@@ -16,8 +16,8 @@ pub fn Settings(cx: Scope) -> impl IntoView {
         <h1>{"Settings"}</h1>
         <p>{"This is the settings page."}</p>
         <ButtonGroup selection=overlay_type>
-            <button on:click=move |_| overlay_type.set(NavType::Overlay)>"Overlay"</button>
-            <button on:click=move |_| overlay_type.set(NavType::Push)>"Push"</button>
+            <button class="" on:click=move |_| overlay_type.set(NavType::Overlay)>"Overlay"</button>
+            <button class="border-l" on:click=move |_| overlay_type.set(NavType::Push)>"Push"</button>
         </ButtonGroup>
     }
 }

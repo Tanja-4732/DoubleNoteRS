@@ -45,10 +45,10 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
                         view! { cx,
                             <Card buttons=move |_| {
                                 view! { cx,
-                                    <a href=href.clone() class="dark:bg-green-500 px-2 py-1 max-w-fit rounded">
+                                    <a href=href.clone() class="bg-green-400 dark:bg-green-500 px-2 py-1 max-w-fit rounded">
                                         "Open"
                                     </a>
-                                    <a href=href.clone() class="dark:border mr-1 px-2 py-1 max-w-fit rounded">
+                                    <a href=href.clone() class="border border-gray-500 dark:border-[#e5e7eb] mr-1 px-2 py-1 max-w-fit rounded">
                                         "Edit"
                                     </a>
                                 }
