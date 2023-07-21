@@ -68,8 +68,14 @@ pub fn set_sidenav_type(state: NavType) {
 pub fn get_sidenav_type() -> NavType {
     Settings::get().sidenav_type
 }
+pub fn set_close_sidenav_on_navigation(cx: Scope, state: bool) {
+    use_context::<WriteSignal<bool>>(cx)
+        // we know we just provided this in the parent component
+        .expect("there to be a `title` signal provided")
+        .set(state);
+}
 
-pub fn set_close_sidenav_on_navigation(state: bool) {
+pub fn set_close_sidenav_on_navigation_untracked(state: bool) {
     let mut settings = Settings::get();
     settings.close_sidenav_on_navigation = state;
     settings.write();
