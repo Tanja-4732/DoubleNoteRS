@@ -54,6 +54,14 @@ impl NavState {
             // Self::Toggle => Self::Toggle,
         }
     }
+
+    pub fn auto_close_with_policy(self, close_sidenav_on_navigation_policy: bool) -> Self {
+        if close_sidenav_on_navigation_policy {
+            Self::Close
+        } else {
+            self
+        }
+    }
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Default, Serialize, Deserialize)]
