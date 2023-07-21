@@ -22,10 +22,12 @@ pub fn App(cx: Scope) -> impl IntoView {
     provide_context(cx, title);
     provide_context(cx, set_title);
 
+    let nav_state = move || toggle();
+
     let class = "px-2 py-2";
 
     view! { cx,
-        <Sidenav nav_state=Some(toggle) nav_menu=move |_| {
+        <Sidenav nav_state=nav_state nav_menu=move |_| {
             view! { cx,
                 <span class=class>
                     <span class="text-xl">"DoubleNote"</span>
