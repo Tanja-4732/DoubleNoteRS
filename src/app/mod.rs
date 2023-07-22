@@ -1,6 +1,7 @@
 mod routes;
 
 use leptos::{ev::close, *};
+use leptos_router::*;
 
 use components::*;
 use routes::MainView;
@@ -37,39 +38,41 @@ pub fn App(cx: Scope) -> impl IntoView {
     let class = "px-2 py-2";
 
     view! { cx,
-        <Sidenav nav_state=nav_state nav_menu=move |_| {
-            view! { cx,
-                <span class=class>
-                    <span class="text-xl">"DoubleNote"</span>
-                    <span class="text-sm ml-auto">" v" {version_info}</span>
-                </span>
-                <a on:click=on_navigate class=class href="/welcome">
-                    "Welcome"
-                </a>
-                <a on:click=on_navigate class=class href="/notebooks">
-                    "Notebooks"
-                </a>
-                <a on:click=on_navigate class=class href="/collaboration">
-                    "Collaboration"
-                </a>
-                <a on:click=on_navigate class=class href="/servers">
-                    "Servers"
-                </a>
-                <a on:click=on_navigate class=class href="/settings">
-                    "Settings"
-                </a>
-                <hr class="border-gray-500"/>
-                <a class=class href="https://github.com/Tanja-4732/DoubleNoteRS" target="_blank">
-                    "Source Code ↗"
-                </a>
-            }
-        }>
-            <div id="sidenav-children" class="w-full min-w-fit min-h-screen bg-gray-100 dark:bg-slate-800 dark:text-white">
-                <Toolbar nav_toggle=set_toggle/>
-                <div id="sidenav-selected-route" class="flex flex-col p-2">
-                    <MainView/>
+        <Router>
+            <Sidenav nav_state=nav_state nav_menu=move |_| {
+                view! { cx,
+                    <span class=class>
+                        <span class="text-xl">"DoubleNote"</span>
+                        <span class="text-sm ml-auto">" v" {version_info}</span>
+                    </span>
+                    <a on:click=on_navigate class=class href="/welcome">
+                        "Welcome"
+                    </a>
+                    <a on:click=on_navigate class=class href="/notebooks">
+                        "Notebooks"
+                    </a>
+                    <a on:click=on_navigate class=class href="/collaboration">
+                        "Collaboration"
+                    </a>
+                    <a on:click=on_navigate class=class href="/servers">
+                        "Servers"
+                    </a>
+                    <a on:click=on_navigate class=class href="/settings">
+                        "Settings"
+                    </a>
+                    <hr class="border-gray-500"/>
+                    <a class=class href="https://github.com/Tanja-4732/DoubleNoteRS" target="_blank">
+                        "Source Code ↗"
+                    </a>
+                }
+            }>
+                <div id="sidenav-children" class="w-full min-w-fit min-h-screen bg-gray-100 dark:bg-slate-800 dark:text-white">
+                    <Toolbar nav_toggle=set_toggle/>
+                    <div id="sidenav-selected-route" class="flex flex-col p-2">
+                        <MainView/>
+                    </div>
                 </div>
-            </div>
-        </Sidenav>
+            </Sidenav>
+        </Router>
     }
 }
