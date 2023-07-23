@@ -2,7 +2,11 @@ use std::rc::Rc;
 
 use chrono::Utc;
 use gloo_storage::{Result, Storage};
-use leptos::{html::Dialog, svg::view, *};
+use leptos::{
+    html::{Dialog, Input},
+    svg::view,
+    *,
+};
 use leptos_router::{use_params_map, use_query, use_query_map};
 
 use crate::{
@@ -17,11 +21,14 @@ use crate::{
 pub fn Notebooks(cx: Scope) -> impl IntoView {
     set_title(cx, "Notebooks");
 
-    let params = use_params_map(cx);
-    let query = use_query_map(cx);
+    // let params = use_params_map(cx);
+    // let query = use_query_map(cx);
+    //
+    // // id: || -> Option<String>
+    // // let id = move || params.with(|params| params.get("id").cloned());
 
-    // id: || -> Option<String>
-    // let id = move || params.with(|params| params.get("id").cloned());
+    let (create_notebook_state, set_create_notebook_state) =
+        create_signal(cx, CreateNotebookState::default());
 
     let notebooks: Result<Vec<BCPNotebook>> = gloo_storage::LocalStorage::get("dn2.bcp.notebooks");
     if notebooks.is_err() {
@@ -32,6 +39,8 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
     }
 
     let make_notebook = move |_| {
+        set_create_notebook_state(CreateNotebookState::Open);
+
         let notebooks: Result<Vec<BCPNotebook>> =
             gloo_storage::LocalStorage::get("dn2.bcp.notebooks");
 
@@ -66,7 +75,7 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
                                     <a href=href.clone() class="bg-green-400 dark:bg-green-500 px-2 py-1 max-w-fit rounded">
                                         "Open"
                                     </a>
-                                    <a on:click=move|_| { log::debug!("set edit dialog open"); set_open_edit_dialog(true); } class="border border-gray-500 dark:border-[#e5e7eb] mr-1 px-2 py-1 max-w-fit rounded cursor-pointer">
+                                    <a on:click=move|_| set_open_edit_dialog(true) class="border border-gray-500 dark:border-[#e5e7eb] mr-1 px-2 py-1 max-w-fit rounded cursor-pointer">
                                         "Edit"
                                     </a>
                                 }
@@ -78,13 +87,13 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
                     .collect_view(cx)}
             </div>
             <button on:click=make_notebook class="dark:border mr-1 px-2 py-1 max-w-fit rounded">
-                "Make Notebook"
+                "Create Notebook"
             </button>
             <button on:click=make_notebook class="dark:border mt-2 px-2 py-1 max-w-fit rounded" disabled>
                 "Import"
             </button>
             <EditNotebookDialog opened=open_edit_dialog/>
-
+            <CreateNotebookDialog state=create_notebook_state set_state=set_create_notebook_state />
         },
         Err(err) => view! { cx,
             <>
@@ -96,6 +105,59 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
             </>
         },
     }
+}
+
+#[derive(Default)]
+enum CreateNotebookState {
+    #[default]
+    Initial,
+    Open,
+    // TODO maybe introduce a `canceled` state
+    Confirmed {
+        name: String,
+    },
+}
+
+#[component]
+fn create_notebook_dialog(
+    cx: Scope,
+    state: ReadSignal<CreateNotebookState>,
+    set_state: WriteSignal<CreateNotebookState>,
+) -> impl IntoView {
+    let name_ref = create_node_ref::<Input>(cx);
+
+    let on_click = move |_| {
+        let node = name_ref.get().expect("name_ref should be loaded by now");
+        // `node` is strongly typed
+        // it is dereferenced to an `HtmlInputElement` automatically
+        log!("value is {:?}", node.value());
+
+        set_state(CreateNotebookState::Confirmed { name: node.value() })
+    };
+
+    let dialog = view! {cx,
+        <dialog>
+            <form method="dialog" class="grid grid-cols-2">
+                <label for="name">"Name"</label>
+                <input type="text" name="name" id="name" _ref=name_ref/>
+
+                <button on:click=on_click type="submit" class="cursor-pointer">
+                    "Confirm"
+                </button>
+                <button on:click=move|e| {log::debug!("{:#?}", e)} type="cancel" class="cursor-pointer">
+                    "Cancel"
+                </button>
+            </form>
+        </dialog>
+    };
+
+    let dialog = store_value(cx, dialog);
+
+    // create_effect(cx, move |_| match state() {
+    //     CreateNotebookState::Open => dialog.with_value(|d| d.show_modal()).unwrap(),
+    // });
+
+    dialog
 }
 
 #[component]
