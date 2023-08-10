@@ -66,7 +66,7 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
                                     <a href=href.clone() class="bg-green-400 dark:bg-green-500 px-2 py-1 max-w-fit rounded">
                                         "Open"
                                     </a>
-                                    <a on:click=move|_| { log::debug!("set edit dialog open"); set_open_edit_dialog(true); } class="border border-gray-500 dark:border-[#e5e7eb] mr-1 px-2 py-1 max-w-fit rounded cursor-pointer">
+                                    <a on:click=move|_| { log::debug!("set edit dialog open"); set_open_edit_dialog.set(true); } class="border border-gray-500 dark:border-[#e5e7eb] mr-1 px-2 py-1 max-w-fit rounded cursor-pointer">
                                         "Edit"
                                     </a>
                                 }
@@ -119,10 +119,10 @@ fn edit_notebook_dialog(cx: Scope, opened: ReadSignal<bool>) -> impl IntoView {
     let dialog = store_value(cx, dialog);
 
     create_effect(cx, move |_| {
-        if opened() {
+        if opened.get() {
             dialog.with_value(|d| d.show_modal()).unwrap();
         }
     });
 
-    dialog
+    dialog.get_value()
 }

@@ -11,11 +11,11 @@ use crate::{
 #[component]
 pub fn Settings(cx: Scope) -> impl IntoView {
     let overlay_type = create_rw_signal(cx, get_sidenav_type());
-    create_effect(cx, move |_| set_sidenav_type(overlay_type()));
+    create_effect(cx, move |_| set_sidenav_type(overlay_type.get()));
 
     let close_sidenav_on_navigation = create_rw_signal(cx, get_close_sidenav_on_navigation());
     create_effect(cx, move |_| {
-        set_close_sidenav_on_navigation(cx, close_sidenav_on_navigation())
+        set_close_sidenav_on_navigation(cx, close_sidenav_on_navigation.get())
     });
 
     set_title(cx, "Settings".into());

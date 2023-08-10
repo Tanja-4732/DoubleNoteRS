@@ -1,5 +1,6 @@
 use chrono::Utc;
 use leptos::*;
+use leptos_router::IntoParam;
 use leptos_router::*;
 use uuid::Uuid;
 
@@ -10,7 +11,7 @@ use crate::core::{
 
 #[derive(Params, Debug, PartialEq, Clone)]
 pub struct BCPNotebookParams {
-    notebook_uuid: Uuid,
+    notebook_uuid: Option<Uuid>,
 }
 use crate::components::Card;
 
@@ -23,6 +24,7 @@ pub fn BCPNotebook(cx: Scope) -> impl IntoView {
             params
                 .as_ref()
                 .map(|params| params.notebook_uuid)
+                .unwrap_or_default()
                 .unwrap_or_default()
         })
     };
