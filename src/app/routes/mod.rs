@@ -39,48 +39,13 @@ pub fn MainView(cx: Scope) -> impl IntoView {
     view! { cx,
             <main id="router-outlet">
                 <Routes>
-                    <Route
-                        path="/welcome"
-                        view=|cx| {
-                            view! { cx, <Welcome/> }
-                        }
-                    />
-                    <Route
-                        path="/notebooks"
-                        view=|cx| {
-                            view! { cx, <Notebooks/> }
-                        }
-                    />
-                    <Route
-                        path="/notebooks/bcp/:notebook_uuid"
-                        view=|cx| {
-                            view! { cx, <BCPNotebook/> }
-                        }
-                    />
-                    <Route
-                        path="/collaboration"
-                        view=|cx| {
-                            view! { cx, <Collaboration/> }
-                        }
-                    />
-                    <Route
-                        path="/servers"
-                        view=|cx| {
-                            view! { cx, <Servers/> }
-                        }
-                    />
-                    <Route
-                        path="/settings"
-                        view=|cx| {
-                            view! { cx, <Settings/> }
-                        }
-                    />
-                    <Route
-                        path="/demo"
-                        view=|cx| {
-                            view! { cx, <Demo/> }
-                        }
-                    />
+                    <Route path="/welcome" view=Welcome/>
+                    <Route path="/notebooks" view=Notebooks/>
+                    <Route path="/notebooks/bcp/:notebook_uuid" view=BCPNotebook/>
+                    <Route path="/collaboration" view=Collaboration/>
+                    <Route path="/servers" view=Servers/>
+                    <Route path="/settings" view=Settings/>
+                    <Route path="/demo" view=Demo/>
                     <Route
                         path="/*any"
                         view=|cx| {
