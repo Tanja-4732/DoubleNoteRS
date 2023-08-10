@@ -12,6 +12,7 @@ use crate::core::{
 pub struct BCPNotebookParams {
     notebook_uuid: Uuid,
 }
+use crate::components::Card;
 
 #[component]
 pub fn BCPNotebook(cx: Scope) -> impl IntoView {
@@ -33,6 +34,13 @@ pub fn BCPNotebook(cx: Scope) -> impl IntoView {
             <p>{"This is the notebooks page."}</p>
             <h2>{"My Notebook"}</h2>
             <p>{uuid_string}</p>
+            <Card buttons=move |_|{view! { cx,
+                <div>
+                    // <a href=href class="btn btn-primary">{"Open"}</a>
+                </div>
+            }}>
+                <p>{"This is my notebook."}</p>
+            </Card>
         </div>
     }
 }

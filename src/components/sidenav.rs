@@ -2,25 +2,21 @@ use leptos::*;
 use serde::{Deserialize, Serialize};
 
 #[component]
-pub fn Sidenav<F, IV>(
-    cx: Scope,
-    nav_state: Option<ReadSignal<NavState>>,
-    nav_menu: F,
-    children: Children,
-) -> impl IntoView
+pub fn Sidenav<F, G, IV>(cx: Scope, nav_state: G, nav_menu: F, children: Children) -> impl IntoView
 where
     F: Fn(Scope) -> IV,
+    G: Fn() -> NavState + 'static,
     IV: IntoView,
 {
     let x = -00;
     let y = 0;
     let z = 0;
 
-    let nav_state = nav_state.unwrap_or_else(|| {
-        log::debug!("[Sidenav] No nav_state signal provided, creating one");
-        let (r, _) = create_signal(cx, NavState::Open);
-        r
-    });
+    // let nav_state = nav_state.unwrap_or_else(|| {
+    //     log::debug!("[Sidenav] No nav_state signal provided, creating one");
+    //     let (r, _) = create_signal(cx, NavState::Open);
+    //     r
+    // });
 
     let nav_hidden = move || nav_state() == NavState::Close;
 
@@ -56,6 +52,14 @@ impl NavState {
             Self::Open => Self::Close,
             Self::Close => Self::Open,
             // Self::Toggle => Self::Toggle,
+        }
+    }
+
+    pub fn auto_close_with_policy(self, close_sidenav_on_navigation_policy: bool) -> Self {
+        if close_sidenav_on_navigation_policy {
+            Self::Close
+        } else {
+            self
         }
     }
 }

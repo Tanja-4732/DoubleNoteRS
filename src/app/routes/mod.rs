@@ -37,7 +37,6 @@ pub fn MainView(cx: Scope) -> impl IntoView {
     // });
     // provide_context(cx, title);
     view! { cx,
-        <Router>
             <main id="router-outlet">
                 <Routes>
                     <Route
@@ -96,6 +95,5 @@ pub fn MainView(cx: Scope) -> impl IntoView {
                     />
                 </Routes>
             </main>
-        </Router>
     }
 }

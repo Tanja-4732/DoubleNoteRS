@@ -4,7 +4,7 @@ use crate::core::common::set_title;
 
 #[component]
 pub fn Welcome(cx: Scope) -> impl IntoView {
-    set_title(cx, "DoubleNote welcome 👋".into());
+    set_title(cx, "DoubleNote welcome 👋");
 
     view! { cx,
         <h1 class="text-2xl pb-2">{"Welcome to DoubleNote!"}</h1>
