@@ -39,7 +39,7 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
     }
 
     let make_notebook = move |_| {
-        set_create_notebook_state(CreateNotebookState::Open);
+        set_create_notebook_state.set(CreateNotebookState::Open);
 
         let notebooks: Result<Vec<BCPNotebook>> =
             gloo_storage::LocalStorage::get("dn2.bcp.notebooks");
@@ -132,7 +132,7 @@ fn create_notebook_dialog(
         // it is dereferenced to an `HtmlInputElement` automatically
         log!("value is {:?}", node.value());
 
-        set_state(CreateNotebookState::Confirmed { name: node.value() })
+        set_state.set(CreateNotebookState::Confirmed { name: node.value() })
     };
 
     let dialog = view! {cx,
@@ -157,7 +157,7 @@ fn create_notebook_dialog(
     //     CreateNotebookState::Open => dialog.with_value(|d| d.show_modal()).unwrap(),
     // });
 
-    dialog
+    dialog.get_value()
 }
 
 #[component]
