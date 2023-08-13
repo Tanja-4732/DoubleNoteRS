@@ -16,7 +16,7 @@ pub fn App(cx: Scope) -> impl IntoView {
     let version_info = env!("CARGO_PKG_VERSION");
 
     let (toggle, set_toggle) = create_signal(cx, get_sidenav_state());
-    create_effect(cx, move |_| set_sidenav_state(toggle()));
+    create_effect(cx, move |_| set_sidenav_state(toggle.get()));
 
     // TODO replace this with the title of the current route
     let (title, set_title) = create_signal(cx, "DoubleNote");
@@ -29,11 +29,11 @@ pub fn App(cx: Scope) -> impl IntoView {
     provide_context(cx, set_close_sidenav_on_navigation);
 
     let on_navigate = move |_| {
-        set_toggle.update(|v| *v = v.auto_close_with_policy(close_sidenav_on_navigation()))
+        set_toggle.update(|v| *v = v.auto_close_with_policy(close_sidenav_on_navigation.get()))
     };
 
-    // let nav_state = move || toggle().with_policy(close_sidenav_on_navigation());
-    let nav_state = move || toggle();
+    // let nav_state = move || toggle.get().with_policy(close_sidenav_on_navigation.get());
+    let nav_state = move || toggle.get();
 
     let class = "px-2 py-2";
 
