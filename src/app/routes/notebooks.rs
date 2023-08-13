@@ -168,11 +168,11 @@ fn edit_notebook_dialog(cx: Scope, opened: ReadSignal<bool>) -> impl IntoView {
                 <label for="name">"Name"</label>
                 <input type="text" name="name" id="name" />
 
-                <button on:click=move|e| {log::debug!("{:#?}", e)} type="submit" class="cursor-pointer">
-                    "Confirm"
-                </button>
                 <button on:click=move|e| {log::debug!("{:#?}", e)} type="cancel" class="cursor-pointer">
                     "Cancel"
+                </button>
+                <button on:click=move|e| {log::debug!("{:#?}", e)} type="submit" class="cursor-pointer">
+                    "Confirm"
                 </button>
             </form>
         </dialog>
