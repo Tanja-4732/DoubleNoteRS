@@ -59,7 +59,7 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
 
     // edit_dialog.show_modal().unwrap();
 
-    let (open_edit_dialog, set_open_edit_dialog) = create_signal(cx, false);
+    let edit_notebook_name = create_rw_signal(cx, EditNotebookState::default());
 
     match notebooks {
         Ok(notebooks) => view! { cx,
@@ -69,30 +69,33 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
                     .into_iter()
                     .map(|notebook| {
                         let href = format!("/notebooks/bcp/{}", notebook.uuid);
+                        let name2 = notebook.name.clone();
                         view! { cx,
                             <Card buttons=move |_| {
+                                let name = notebook.name.clone();
                                 view! { cx,
                                     <a href=href.clone() class="bg-green-400 dark:bg-green-500 px-2 py-1 max-w-fit rounded">
                                         "Open"
                                     </a>
-                                    <a on:click=move|_| set_open_edit_dialog.set(true) class="border border-gray-500 dark:border-[#e5e7eb] mr-1 px-2 py-1 max-w-fit rounded cursor-pointer">
+                                    <a on:click=move|_| edit_notebook_name.set(EditNotebookState::Open{previous_name: name.clone()}) class="border border-gray-500 dark:border-[#e5e7eb] mr-1 px-2 py-1 max-w-fit rounded cursor-pointer">
                                         "Edit"
                                     </a>
                                 }
                             }>
-                                <h2 class="text-lg">{notebook.name.clone()}</h2>
+                                <h2 class="text-lg">{name2}</h2>
                             </Card>
                         }
                     })
                     .collect_view(cx)}
             </div>
-            <button on:click=make_notebook class="dark:border mr-1 px-2 py-1 max-w-fit rounded">
+            // <button on:click=make_notebook class="dark:border mr-1 px-2 py-1 max-w-fit rounded">
+            <button on:click=move|_| set_create_notebook_state.set(CreateNotebookState::Open) class="dark:border mr-1 px-2 py-1 max-w-fit rounded">
                 "Create Notebook"
             </button>
             <button on:click=make_notebook class="dark:border mt-2 px-2 py-1 max-w-fit rounded" disabled>
                 "Import"
             </button>
-            <EditNotebookDialog opened=open_edit_dialog/>
+            <EditNotebookDialog edit_state=edit_notebook_name/>
             <CreateNotebookDialog state=create_notebook_state set_state=set_create_notebook_state />
         },
         Err(err) => view! { cx,
@@ -118,8 +121,22 @@ enum CreateNotebookState {
     },
 }
 
+#[derive(Default, Debug, Clone)]
+enum EditNotebookState {
+    #[default]
+    Initial,
+    Open {
+        previous_name: String,
+    },
+    // TODO maybe introduce a `canceled` state
+    Confirmed {
+        new_name: String,
+    },
+    Canceled,
+}
+
 #[component]
-fn create_notebook_dialog(
+fn CreateNotebookDialog(
     cx: Scope,
     state: ReadSignal<CreateNotebookState>,
     set_state: WriteSignal<CreateNotebookState>,
@@ -161,17 +178,40 @@ fn create_notebook_dialog(
 }
 
 #[component]
-fn edit_notebook_dialog(cx: Scope, opened: ReadSignal<bool>) -> impl IntoView {
+fn EditNotebookDialog(cx: Scope, edit_state: RwSignal<EditNotebookState>) -> impl IntoView {
+    let opened = move || match edit_state.get() {
+        EditNotebookState::Open { .. } => true,
+        _ => false,
+    };
+
+    let name = move || match edit_state.get() {
+        EditNotebookState::Open { previous_name } => previous_name,
+        _ => String::new(),
+    };
+
+    let name_ref = create_node_ref::<Input>(cx);
+
+    let on_click = move |_| {
+        let node = name_ref.get().expect("name_ref should be loaded by now");
+        // `node` is strongly typed
+        // it is dereferenced to an `HtmlInputElement` automatically
+        log!("value is {:?}", node.value());
+
+        edit_state.set(EditNotebookState::Confirmed {
+            new_name: node.value(),
+        })
+    };
+
     let dialog = view! {cx,
-        <dialog>
-            <form method="dialog" class="grid grid-cols-2">
+        <dialog class="bg-gray-300 dark:bg-slate-700 dark:text-white p-3">
+            <form method="dialog" class="grid grid-cols-2 gap-2">
                 <label for="name">"Name"</label>
-                <input type="text" name="name" id="name" />
+                <input type="text" name="name" id="name" class="dark:text-black" value=name/>
 
                 <button on:click=move|e| {log::debug!("{:#?}", e)} type="cancel" class="cursor-pointer">
                     "Cancel"
                 </button>
-                <button on:click=move|e| {log::debug!("{:#?}", e)} type="submit" class="cursor-pointer">
+                <button on:click=on_click type="submit" class="cursor-pointer">
                     "Confirm"
                 </button>
             </form>
@@ -181,7 +221,7 @@ fn edit_notebook_dialog(cx: Scope, opened: ReadSignal<bool>) -> impl IntoView {
     let dialog = store_value(cx, dialog);
 
     create_effect(cx, move |_| {
-        if opened.get() {
+        if opened() {
             dialog.with_value(|d| d.show_modal()).unwrap();
         }
     });
