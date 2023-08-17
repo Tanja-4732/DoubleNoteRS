@@ -68,6 +68,7 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
                     .map(|mut notebook| {
                         let href = format!("/notebooks/bcp/{}", notebook.uuid);
                         let name2 = notebook.name.clone();
+                        // Something like the following would be used to avoid the hack below:
                         // let mut_name_borrow: &'static mut String = &mut notebook.name;
 
                         let edit_notebook_name = create_rw_signal(cx, EditNotebookState::default());
@@ -79,6 +80,15 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
                             match edit_notebook_name.get() {
                                 EditNotebookState::Confirmed { new_name } => {
                                     log::debug!("want to set new_name: {}", new_name);
+                                    // HACK this should be possible without (effectively) cloning everything
+                                    let mut notebooks: Vec<BCPNotebook> = gloo_storage::LocalStorage::get("dn2.bcp.notebooks").unwrap();
+
+                                    // Get a mut ref to the notebook we want to edit (by uuid)
+                                    let notebook = notebooks.iter_mut().find(|n| n.uuid == notebook.uuid).unwrap();
+                                    notebook.name = new_name;
+                                    gloo_storage::LocalStorage::set("dn2.bcp.notebooks", &notebooks).unwrap();
+
+                                    // Preferably, we would do this:
                                     // *mut_name_borrow = new_name;
                                 }
                                 EditNotebookState::Initial | EditNotebookState::Open { .. } | EditNotebookState::Canceled => (),
