@@ -59,27 +59,48 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
 
     // edit_dialog.show_modal().unwrap();
 
-    let edit_notebook_name = create_rw_signal(cx, EditNotebookState::default());
-
     match notebooks {
         Ok(notebooks) => view! { cx,
             <div class="dn2-card-grid">
             // <div class="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 md:gap-2 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
                 {notebooks
                     .into_iter()
-                    .map(|notebook| {
+                    .map(|mut notebook| {
                         let href = format!("/notebooks/bcp/{}", notebook.uuid);
                         let name2 = notebook.name.clone();
+                        // let mut_name_borrow: &'static mut String = &mut notebook.name;
+
+                        let edit_notebook_name = create_rw_signal(cx, EditNotebookState::default());
+
+                        let name = notebook.name.clone();
+
+
+                        create_effect(cx, move |_| {
+                            match edit_notebook_name.get() {
+                                EditNotebookState::Confirmed { new_name } => {
+                                    log::debug!("want to set new_name: {}", new_name);
+                                    // *mut_name_borrow = new_name;
+                                }
+                                EditNotebookState::Initial | EditNotebookState::Open { .. } | EditNotebookState::Canceled => (),
+                            }
+                        });
+
                         view! { cx,
                             <Card buttons=move |_| {
-                                let name = notebook.name.clone();
+                                let name = &name;
+                                let name = name.clone();
+                                let on_edit = move |_| {
+                                    edit_notebook_name.set(EditNotebookState::Open{previous_name: name.clone()})
+                                };
+
                                 view! { cx,
                                     <a href=href.clone() class="bg-green-400 dark:bg-green-500 px-2 py-1 max-w-fit rounded">
                                         "Open"
                                     </a>
-                                    <a on:click=move|_| edit_notebook_name.set(EditNotebookState::Open{previous_name: name.clone()}) class="border border-gray-500 dark:border-[#e5e7eb] mr-1 px-2 py-1 max-w-fit rounded cursor-pointer">
+                                    <a on:click=on_edit class="border border-gray-500 dark:border-[#e5e7eb] mr-1 px-2 py-1 max-w-fit rounded cursor-pointer">
                                         "Edit"
                                     </a>
+                                    <EditNotebookDialog edit_state=edit_notebook_name/>
                                 }
                             }>
                                 <h2 class="text-lg">{name2}</h2>
@@ -95,7 +116,6 @@ pub fn Notebooks(cx: Scope) -> impl IntoView {
             <button on:click=make_notebook class="dark:border mt-2 px-2 py-1 max-w-fit rounded" disabled>
                 "Import"
             </button>
-            <EditNotebookDialog edit_state=edit_notebook_name/>
             <CreateNotebookDialog state=create_notebook_state set_state=set_create_notebook_state />
         },
         Err(err) => view! { cx,
@@ -206,7 +226,7 @@ fn EditNotebookDialog(cx: Scope, edit_state: RwSignal<EditNotebookState>) -> imp
         <dialog class="bg-gray-300 dark:bg-slate-700 dark:text-white p-3">
             <form method="dialog" class="grid grid-cols-2 gap-2">
                 <label for="name">"Name"</label>
-                <input type="text" name="name" id="name" class="dark:text-black" value=name/>
+                <input type="text" name="name" id="name" class="dark:text-black" value=name _ref=name_ref/>
 
                 <button on:click=move|e| {log::debug!("{:#?}", e)} type="cancel" class="cursor-pointer">
                     "Cancel"
